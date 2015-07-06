@@ -8,7 +8,7 @@
  * @param  {object} $anchorSmoothScroll  custom service for smooth scrolling functionality
 
  */
-angular.module('seadApp').controller('homeController', function($scope) {
+angular.module('seadApp').controller('homeController', function($scope, $auth) {
    
 
 	 $scope.notMobile = function(){
@@ -17,6 +17,13 @@ angular.module('seadApp').controller('homeController', function($scope) {
 
 	 $scope.test = "lol";
 
+	 $scope.authenticate = function(provider) {
+      $auth.authenticate(provider);
+    };
+
+    
+
+	console.log("whaddup");
 
     	// temp fix for going to dashboard //FIXME
     (function developLogin() {
