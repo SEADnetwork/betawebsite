@@ -19,7 +19,23 @@ angular.module('seadApp').controller('homeController', function($scope, $auth, $
 
 	 $scope.authenticate = function() {
 	 	console.log("gonna do it");
-      $auth.authenticate('github');
+	 	var githubApi = "https://github.com";
+	 	var authenticateAPI = githubApi.concat("/login/oauth/authorize");
+	 	var url = authenticateAPI.concat('?client_id=5041dd38171c14db1dc3').concat('&external=true');
+	 	$http.get(url)
+	 	.success(function (data) {
+                console.log(data);
+            })
+         .error(function (http, status) {
+            console.log("failed", http, status);
+          })
+      
+    };
+
+      var basicSearch = function(searchTerms){
+        var urlTerms = encodeURIComponent(searchTerms);
+        var url = serverApi.concat('/publications?q=').concat(urlTerms).concat('&external=true');
+        return $http.get(url,config);
     };
 
 
