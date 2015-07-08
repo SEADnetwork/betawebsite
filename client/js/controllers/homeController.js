@@ -17,12 +17,20 @@ angular.module('seadApp').controller('homeController', function($scope, $auth, $
 
 	 $scope.test = "lol";
 
-	 $scope.authenticate = function() {
+	 $scope.authenticate = function(username, password) {
+	 	username = "subtiv";
+	 	password = "Knol1gler";
+
 	 	console.log("gonna do it");
-	 	var githubApi = "https://github.com";
-	 	var authenticateAPI = githubApi.concat("/login/oauth/authorize");
-	 	var url = authenticateAPI.concat('?client_id=5041dd38171c14db1dc3').concat('&external=true');
-	 	$http.get(url)
+	 	var serverURL = "http://127.0.0.1:3000";
+
+	 	var url = serverURL.concat('/users/biomoddlondonrepo?').concat('u=' + username).concat('&p=' + password);
+
+	 	var config = {headers:  {
+		        "Content-type" : "application/json"
+		    }};
+
+	 	$http.get(url,config)
 	 	.success(function (data) {
                 console.log(data);
             })
