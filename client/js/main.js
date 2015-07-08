@@ -3,7 +3,7 @@
   * Uses ng-route to start the a controller dependent on the url.
   * @type {angular module}
   */
-var webapp = angular.module('seadApp', ['ngRoute', 'ui.router', 'ui.materialize', 'ng.deviceDetector', 'satellizer']);
+var webapp = angular.module('seadApp', ['ngRoute', 'ui.router', 'ui.materialize', 'ng.deviceDetector', 'angularLoad']);
 
 
 //Configures an header for all the 'normal' requests to the server. (not 'normal' request = specific request that needs special authorization)
@@ -18,16 +18,10 @@ var config = {headers:  {
  * 		- controller
  * @param  {routeProvider} $routeProvider the ng-route provider associated with the app
  */
-webapp.config(['$urlRouterProvider', '$stateProvider', '$authProvider',  function($urlRouterProvider, $stateProvider, $authProvider) {
+webapp.config(['$urlRouterProvider', '$stateProvider',  function($urlRouterProvider, $stateProvider, $authProvider) {
 
 
 	$urlRouterProvider.otherwise('/home');
-
-
-	$authProvider.github({
-      clientId: '5041dd38171c14db1dc3',
-      url: '/'
-    });
 
      
 
@@ -66,6 +60,14 @@ webapp.config(['$urlRouterProvider', '$stateProvider', '$authProvider',  functio
  * Initialisation of the appdata with the empty object
  */
 webapp.service('$appData', function() {});
+
+
+
+webapp.filter('trustAsResourceUrl', ['$sce', function($sce) {
+    return function(val) {
+        return $sce.trustAsResourceUrl(val);
+    };
+}])
 
 
 
