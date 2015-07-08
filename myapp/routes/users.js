@@ -17,13 +17,44 @@ var github = new GitHubApi({
     }
 });
 
+// global vars
+var repoName = 'BiomoddLondon';
+
+//get information about all the forks of biomodd london
+router.get('/biomoddlondonupdates', function(req, res, next){
+	var userName = "SEADnetwork";
+	var data = [];
+
+	github.repos.getForks({
+		user: userName,
+		repo: repoName
+	}, function(err, contentData){
+		var data = [];
+
+		for (var i = 0; i < contentData.length; i++){
+			var owner = contentData[i].owner;
+
+			var entry = {
+				name: owner.login,
+				avatar: owner.avatar_url,
+				updated: contentData[i].updated_at
+			};
+
+			data.push(entry);
+		}
+
+		res.send(data);
+	});
+
+})
+
+//get the code from a user
 router.get('/biomoddlondonrepo', function(req, res, next) {
 	
 	//settings
 	var username = req.query.u;
 	var password = req.query.p;
 	var codePath = 'code.xml';
-	var repoName = 'BiomoddLondon';
 
 	//aux functions
 	var authenticate = function(){

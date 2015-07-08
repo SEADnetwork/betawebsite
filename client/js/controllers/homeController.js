@@ -8,14 +8,19 @@
  * @param  {object} $anchorSmoothScroll  custom service for smooth scrolling functionality
 
  */
-angular.module('seadApp').controller('homeController', function($scope, $auth, $http) {
-   
+ angular.module('seadApp').controller('homeController', function($scope, $auth, $http) {
 
-	 $scope.notMobile = function(){
+	//global vars
+	var userURL = "http://127.0.0.1:3000/users/";
+
+	$scope.notMobile = function(){
 	 	// return deviceDetector.isDesktop();
 	 }
 
 	 $scope.test = "lol";
+	 $scope.members = [];
+
+
 
 	 $scope.authenticate = function(username, password) {
 	 	username = "subtiv";
@@ -24,37 +29,44 @@ angular.module('seadApp').controller('homeController', function($scope, $auth, $
 	 	console.log("gonna do it");
 	 	var serverURL = "http://127.0.0.1:3000";
 
-	 	var url = serverURL.concat('/users/biomoddlondonrepo?').concat('u=' + username).concat('&p=' + password);
+	 	var url = userURL.concat('biomoddlondonrepo?').concat('u=' + username).concat('&p=' + password);
 
-	 	var config = {headers:  {
-		        "Content-type" : "application/json"
-		    }};
+	 	var config = {
+	 		headers:  {
+	 			"Content-type" : "application/json"
+	 		}
+	 	};
 
 	 	$http.get(url,config)
 	 	.success(function (data) {
-                console.log(data);
-            })
-         .error(function (http, status) {
-            console.log("failed", http, status);
-          })
-      
-    };
+	 		console.log(data);
+	 	})
+	 	.error(function (http, status) {
+	 		console.log("failed", http, status);
+	 	})
 
-      var basicSearch = function(searchTerms){
-        var urlTerms = encodeURIComponent(searchTerms);
-        var url = serverApi.concat('/publications?q=').concat(urlTerms).concat('&external=true');
-        return $http.get(url,config);
-    };
+	 };
 
+	 var updateMembers = function(){
+	 	var url = userURL.concat('biomoddlondonupdates');
 
+	 	$http.get(url)
+	 	.success(function (data) {
+	 		$scope.members=data;
+	 	})
+	 	.error(function (http, status) {
+	 		console.log("failed", http, status);
+	 	})
 
-	console.log("whaddup");
+	 };
 
     	// temp fix for going to dashboard //FIXME
-    (function developLogin() {
+    	(function developLogin() {
 		toast("welcome", 4000) // 4000 is the duration of the toast
-	})();
+		updateMembers();
+		})
+    	();
 
-});
+    });
 
 

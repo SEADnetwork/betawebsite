@@ -8066,6 +8066,10 @@ body {
   .white-text-color a {
     text-decoration: underline; }
 
+.safe-white-color {
+  color: white;
+  text-shadow: 0px 0px 8px black; }
+
 @-webkit-keyframes spacerspacer {
   0% {
     letter-spacing: 2px; }
