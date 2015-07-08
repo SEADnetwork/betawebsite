@@ -49,15 +49,13 @@ router.get('/biomoddlondonupdates', function(req, res, next){
 })
 
 //get the code from a user
-router.get('/biomoddlondonrepo', function(req, res, next) {
+router.get('/getusercode', function(req, res, next) {
 	
 	//settings
 	var username = req.query.u;
-	var password = req.query.p;
-	var codePath = 'code.xml';
+	var codePath = 'code.js';
 
-	//aux functions
-	var authenticate = function(){
+	var authenticate = function(username, password){
 		github.authenticate({
 			type: "basic",
 			username: username,
@@ -75,7 +73,12 @@ router.get('/biomoddlondonrepo', function(req, res, next) {
 			});
 
 			res.on("end", function() {
-				callback(null, data);
+				// replace url
+				var productionURL = downloadURL.replace("raw.githubusercontent", "rawgit");
+				
+				callback(null, {url: productionURL,
+								code: data}
+								);
 			});
 
 		}).on("error", function() {
@@ -89,7 +92,14 @@ router.get('/biomoddlondonrepo', function(req, res, next) {
 			repo: repoName,
 			path: codePath
 		}, function(err, contentData) {
-			callback(null, contentData.download_url);
+			if (err){
+				var msg = "error: could not download code.js";
+				console.log(msg + err);
+				callback(msg, null);
+			} else {
+				callback(null, contentData.download_url);
+			}
+			
 		});
 	}
 
@@ -103,8 +113,9 @@ router.get('/biomoddlondonrepo', function(req, res, next) {
 		});
 	}
 
+	authenticate("subtiv", "Knol1gler");
+
 	//start 
-	// authenticate();
 	getCode(function(error, data){
 		if (error){
 			console.log(error);
@@ -112,6 +123,27 @@ router.get('/biomoddlondonrepo', function(req, res, next) {
 			res.send(data);
 		}
 	});
+});
+
+//authenticate (template)
+router.get('/authenticate', function(req, res, next) {
+	
+	//settings
+	var username = req.query.u;
+	var password = req.query.p;
+	
+	//aux functions
+	var authenticate = function(){
+		github.authenticate({
+			type: "basic",
+			username: username,
+			password: password
+		});	
+	}
+
+
+	//start 
+	authenticate();
 });
 
 
