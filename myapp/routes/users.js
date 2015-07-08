@@ -77,7 +77,8 @@ router.get('/getusercode', function(req, res, next) {
 				var productionURL = downloadURL.replace("raw.githubusercontent", "rawgit");
 				
 				callback(null, {url: productionURL,
-								code: data}
+								code: data,
+								user: username}
 								);
 			});
 
