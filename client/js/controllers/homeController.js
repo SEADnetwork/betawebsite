@@ -18,6 +18,14 @@
 	$scope.appData = {};
 	$scope.membercode = [];
 
+	$scope.showmenu = false;
+
+
+
+	$scope.togglemenu = function(){
+		$scope.showmenu = !$scope.showmenu;
+	}
+
 
 	$scope.setProject = function (id) {
 		$scope.currentProject = $scope.projects[id];
@@ -88,7 +96,6 @@
     	(function developLogin() {
 		toast("welcome", 4000) // 4000 is the duration of the toast
 		updateMembers();
-		$scope.loadMasterCode();
 	})
     	();
 

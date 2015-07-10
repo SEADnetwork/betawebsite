@@ -4,9 +4,34 @@
 
 	<br>
 
+	<div class="center">
+		<h1>
+			BIOMODD LONDON WORKSHOP
+		</h1>
+		<h2>
+			PARTICIPANTS
+		</h2>
+	</div>
+
+
+
 	<div class="row">
 		<div class="section">
-			<div ng:repeat="member in members">
+			<div ng-hide="members.length !== 0">
+				<div class="card">
+					<span class="card-title safe-white-color">
+						Loading sketches
+					</span>
+					<div class="card-content">
+						<spinner></spinner>
+					</div>
+					<div class="card-action">
+						<a ng-click="loadUserSketch(member.name)"> load sketch</a>
+					</div>
+				</div>
+				<spinner></spinner>
+			</div>
+			<div ng:repeat="member in members" ng-show="members.length !== 0">
 				<div class="col s6 m4 l2">
 					<div class="card">
 						<div class="card-image">
@@ -30,41 +55,72 @@
 	</div>
 
 
-	<div id='myContainer'>
-		<div style="transform: translate(20px,130px);">
-
+	
+	<!-- p5 gets injected in this container -->
+	<div id='myContainer' style="position:relative">
+		
+		<!-- menu -->
+		<div style="position:absolute; left:15; top: 15; width:100%"> 
 			<div class="row">
-				<!-- toggle button for showing code -->
-				<a class="col s11 m4 l3 waves-effect waves-light btn-large" ng-click="showCodeSwitch()">
-					<h5 class="center-align" style="color:white">
-						<div ng-show="showCode">
-							hide code
-						</div>
-						<div ng-hide="showCode">
-							show code
-						</div>
-					</h5>
-				</a>
+				<div class="col card s12 m4 l3" style="background-color:rgba(255,255,255, .75);">
+					<div class="card-content">
+						<span class="card-title grey-text text-darken-4" ng-click="togglemenu()">
+							<a> MENU </a>
+							<i class="mdi-navigation-more-vert right"></i>
+						</span>
+					</div>
+					<span class="grey-text text-darken-4" ng-show="showmenu">
+						<div class="animated fadeInDown col s12">
+							<div class="section">
 
-				<a class="col s11 m4 l3 waves-effect waves-light btn-large" >
-					<h5 class="center-align" href="{{appData.code.url | trustAsResourceUrl}}" style="color:white">
-						download code
-					</h5>
-				</a>
+								<!-- Switch -->
+								<div class="col s12">
+									<div class="switch">
+										<h6 class="left-align">
+											show code 
+											<br><br>
+											<label>
+												off
+												<input type="checkbox">
+												<span class="lever"  ng-click="showCodeSwitch()"></span>
+												On
+											</label>
+										</h6>
+									</div>
+									<br>
+								</div>
 
-				<!-- load master code -->
-				<div class="row">
-					<a class="col s11 m6 l4 waves-effect waves-light btn-large" ng-click="loadMasterCode()">
-						<h5 class="center-align" style="color:white">
-							load master sketch
-						</h5>
-					</a>
+								<div class="progress">
+									<div class="determinate" style="width: 25%"></div>
+								</div>
+
+								<div class="waves-effect waves-light btn" style="color:white; width: 100%"> 
+									<i class="mdi-file-file-download left"></i>
+									<a href="{{appData.code.url}}" style="color:white" download>
+										Download code
+									</a>
+								</div>
+
+								<div class="waves-effect waves-light btn" style="color:white; width: 100%" ng-click="loadMasterCode()"> 
+									<i class="mdi-action-grade left"></i>
+									<div>
+										Load master sketch
+									</div>
+								</div>
+
+							</div>
+							<div class="center">
+								<i class="mdi-hardware-keyboard-arrow-up" ng-click="togglemenu()"></i>
+							</div>
+						</div>
+					</span>
 				</div>
 			</div>
-			
-			<!-- code frame -->
+
+			<!-- show code -->
 			<div ng-show="showCode">
-				<iframe ng-src="{{appData.code.url | trustAsResourceUrl}}" width="100%" height="500px" frameBorder="0" style="position: absolute; height=500px"></iframe>
+				<iframe ng-src="{{appData.code.url | trustAsResourceUrl}}" width="100%" height="100%" frameBorder="0" style="position: absolute; height=500px"></iframe>
 			</div>
+
 		</div>
-	</div>
+

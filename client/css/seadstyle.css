@@ -8056,6 +8056,23 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 body {
   background-color: #4A60B6; }
 
+.dark-box {
+  background-color: #1e2749;
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 0 2rem;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background-clip: padding-box;
+  line-height: 36px;
+  text-transform: uppercase;
+  border: none;
+  outline: 0;
+  -webkit-tap-highlight-color: transparent;
+  width: 55.5px;
+  height: 55.5px; }
+
 .imgopac {
   opacity: 0.8;
   filter: alpha(opacity=80);
