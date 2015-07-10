@@ -17,8 +17,45 @@ var github = new GitHubApi({
     }
 });
 
+function Queue(max){
+	this.data = [];
+
+	this.push = function(value){
+		data.push(value)
+		if (data.length > max){
+			data.shift();
+		}
+	}
+
+	this.last = function(){
+		return data[data.length-1];
+	}
+
+	return {
+		data: this.data,
+		push: this.push,
+		last: this.last
+	}
+}
+
 // global vars
 var repoName = 'BiomoddLondon';
+
+var sensorRaw1 = Queue(10);
+
+//put this in additional route… the data route
+router.get('/postSensor1', function(req, res, next){
+	sensorRaw1.push(req.query.d);
+
+	res.send("sensor 1 data posted");
+})
+
+router.get('/getSensor1Raw', function(req, res, next){
+	res.send(sensorRaw1);
+})
+
+
+
 
 //get information about all the forks of biomodd london
 router.get('/biomoddlondonupdates', function(req, res, next){
@@ -39,13 +76,10 @@ router.get('/biomoddlondonupdates', function(req, res, next){
 				avatar: owner.avatar_url,
 				updated: contentData[i].updated_at
 			};
-
 			data.push(entry);
 		}
-
 		res.send(data);
 	});
-
 })
 
 //get the code from a user
