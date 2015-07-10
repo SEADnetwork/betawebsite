@@ -114,6 +114,28 @@ router.get('/getSensor', function(req, res, next){
 	});
 })
 
+router.get('/getSensors', function(req, res, next){
+	res.send(
+		[{
+			raw: sensors[0].rawData,
+			last: sensors[0].last(),
+			averageData: sensors[0].averageData()
+		},
+		{
+			raw: sensors[1].rawData,
+			last: sensors[1].last(),
+			averageData: sensors[1].averageData()
+		},
+		{
+			raw: sensors[2].rawData,
+			last: sensors[2].last(),
+			averageData: sensors[2].averageData()
+		}
+		]
+
+	);
+})
+
 router.get('/postSensor', function(req, res, next){
 	var currs = sensors[req.query.s];
 	res.send({raw: currs.rawData,
