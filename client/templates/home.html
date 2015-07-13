@@ -4,24 +4,44 @@
 
 	<br>
 
+	<div class="center">
+		<h1>
+			BIOMODD LONDON WORKSHOP
+		</h1>
+		<h2>
+			PARTICIPANTS
+		</h2>
+	</div>
+
+
+
 	<div class="row">
 		<div class="section">
-			<div ng:repeat="member in members">
-				<div class="col s6 m4 l2">
-					<div class="card">
-						<div class="card-image">
-							<img src={{member.avatar}}>
-							<span class="card-title safe-white-color">
-								{{member.name}}
-							</span>
-						</div>
-						<div class="card-content">
-							<p>
-								last update: {{member.updated}}
-							</p>
-						</div>
-						<div class="card-action">
-							<a ng-click="loadUserSketch(member.name)"> load sketch</a>
+			<div ng-hide="members.length !== 0">
+				<div class="center">
+					<spinner></spinner>
+					<h6> LOADING SKETCHES </h6>
+				</div>
+				
+			</div>
+			<div class="center">
+				<div ng:repeat="member in members" ng-show="members.length !== 0">
+					<div class="col s6 m4 l2">
+						<div class="card">
+							<div class="card-image">
+								<img src={{member.avatar}}>
+								<span class="card-title safe-white-color">
+									{{member.name}}
+								</span>
+							</div>
+							<div class="card-content">
+								<p>
+									last update: {{member.updated}}
+								</p>
+							</div>
+							<div class="card-action">
+								<a ng-click="loadUserSketch(member.name)"> load sketch</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -30,41 +50,205 @@
 	</div>
 
 
-	<div id='myContainer'>
-		<div style="transform: translate(20px,130px);">
+	<div class="center">
+		<div class="row">
+			<div class="col card s12 m8 l8 offset-l2 offset-m2" >
+				<div class="card-content">
+					<span class="card-title grey-text text-darken-4" ng-click="toggleTutorial()">
+						<a> Tutorial </a>
+						<i class="mdi-navigation-more-vert right"></i>
+					</span>
+				</div>
+				<span class="grey-text text-darken-4" ng-show="showTutorial">
+					<div class="animated fadeInDown col s12">
+						<div class="section">
+							<!-- fork code -->
+							<h3> MAKE GITHUB ACCOUNT </h3>
+							<img src="img/github.png" alt="github image" style="width:150px;">
+							<br>
+							Head over to <a href="https://github.com/">github.com</a>
+							<br>and make an account if you don't have one already.
+							<br>
+							<div class="progress">
+								<div class="determinate" style="width: 25%"></div>
+							</div>
+							
+							<!-- fork code -->
+							<h3> FORK CODE </h3>
+							<img src="img/fork.png" alt="fork image" style="width:150px;">
+							<br>
+							Go to the <a href="https://github.com/SEADnetwork/BiomoddLondon">Biomodd London Repository</a> 
+							<br>
+							and press "fork" after you logged in.
+							<div class="progress">
+								<div class="determinate" style="width: 25%"></div>
+							</div>
 
-			<div class="row">
-				<!-- toggle button for showing code -->
-				<a class="col s11 m4 l3 waves-effect waves-light btn-large" ng-click="showCodeSwitch()">
-					<h5 class="center-align" style="color:white">
-						<div ng-show="showCode">
-							hide code
+							<!-- download git client -->
+							<h3> GET GUI 4 GITHUB </h3>
+							<img src="img/octobiwan.jpg" alt="git image" style="width:150px;">
+							<br>
+							If you know your away around git, please use your go-to system. Otherwise
+							download a GUI/GIT client for your development OS.
+							<br>
+							<a href="https://windows.github.com/">Windows (official)</a><br>
+							<a href="https://mac.github.com/">Mac  (official)</a><br>
+							<a href="http://www.syntevo.com/smartgit/">Linux gui</a><br>
+							<a href="https://help.github.com/articles/set-up-git/#platform-linux">Linux Commandline</a>
+							<br>
+							After installing, log in with your Github account and clone your fork of the "Biomodd London Repository" on your machine.
+							<div class="progress">
+								<div class="determinate" style="width: 25%"></div>
+							</div>
+
+							<!-- run the sketch locally -->
+							<h3>RUN THE SKETCH LOCALLY</h3>
+
+							<h4>On UNIX (osx/linux)</h4>
+							<ol>
+								<li>Open Terminal</li>
+								<li>type [cd "PATH"] where PATH should be replaced with the path to your clone of the repository, for example; cd ~/Desktop/myBiomoddClone</li>
+								<li>type [python -m SimpleHTTPServer]</li>
+								<li>open op your favorite browser and browse to "http://localhost:8000/"</li>
+							</ol>
+							
+							<h4>On Windows</h4>
+							<ol>
+								<li>Open MS-DOS (type "cmd" in "start")</li>
+								<li>type [cd "PATH"] where PATH should be replaced with the path to your clone of the repository, for example; cd ~/Desktop/myBiomoddClone</li>
+								<li> type [python -m http.server 8000] </li>
+								<li>open op your favorite browser and browse to "http://localhost:8000/"</li>
+							</ol>
+							<br>
+							You should see a fullscreen sketch running right now, use the arrow keys to controll your avatar.
+
+							<div class="progress">
+								<div class="determinate" style="width: 25%"></div>
+							</div>
+
+							<!-- START MODDING -->
+							<h3> START MODDING </h3>
+							Open up your local clone of the repository using your favorite text editor. If you are in doubt, you could use <a href="http://www.sublimetext.com/2"> sublime text </a> <br>
+
+							Open up "code.js" in the text-editor, and try changing some of the variables
+
+							<br>
+							<!-- <div style="text-align: left; color:#D3D3D3"> -->
+							<div class="right" style="text-align: left">
+							<xmp>
+								//----------------------------------
+								// variables						
+								//----------------------------------
+
+								/**
+								* Background: The background color for our sketch, can be modified
+								* @type {String}
+								* @namespace changeable variables
+								*/
+								this.backgroundColor = '#660066'; 
+								</xmp>
+							</div>
+							<br>
+							<div>
+
+								In general most of those lines should be visible in grey if you open them up in a text-editor. This means that they are comments, and not really code that executes into software. The only meaningful line for us is <br>
+								this.backgroundColor = '#660066'; //rgb(102, 0, 102)<br>
+								<br>
+								Try changing the value '#660066' into something different, safe in the text-editor and reload "http://localhost:8000/" in your browser. (the #660066 represents a <a href="http://www.w3schools.com/tags/ref_colorpicker.asp">hexadecimal color</a>)<br>
+								<br>
+								Congratz: you did your first game-modding.
+								<br><br>
+								You can find additional information about our little game in the documentation (generated by those comments we ignored earlier). The documentation of the master repository can be found <a href="/out/index.html">here</a><br>
+
+
+
+
+
+
+
+
+
+
+
+							</div>
+							<div class="center">
+								<i class="mdi-hardware-keyboard-arrow-up" ng-click="toggleTutorial()"></i>
+							</div>
 						</div>
-						<div ng-hide="showCode">
-							show code
-						</div>
-					</h5>
-				</a>
-
-				<a class="col s11 m4 l3 waves-effect waves-light btn-large" >
-					<h5 class="center-align" href="{{appData.code.url | trustAsResourceUrl}}" style="color:white">
-						download code
-					</h5>
-				</a>
-
-				<!-- load master code -->
-				<div class="row">
-					<a class="col s11 m6 l4 waves-effect waves-light btn-large" ng-click="loadMasterCode()">
-						<h5 class="center-align" style="color:white">
-							load master sketch
-						</h5>
-					</a>
+					</span>
 				</div>
 			</div>
-			
-			<!-- code frame -->
-			<div ng-show="showCode">
-				<iframe ng-src="{{appData.code.url | trustAsResourceUrl}}" width="100%" height="500px" frameBorder="0" style="position: absolute; height=500px"></iframe>
-			</div>
 		</div>
-	</div>
+
+
+
+
+
+		<!-- p5 gets injected in this container -->
+		<div id='myContainer' style="position:relative">
+
+			<!-- menu -->
+			<div style="position:absolute; left:15; top: 15; width:100%"> 
+				<div class="row">
+					<div class="col card s12 m4 l3" style="background-color:rgba(255,255,255, .75);">
+						<div class="card-content">
+							<span class="card-title grey-text text-darken-4" ng-click="togglemenu()">
+								<a> MENU </a>
+								<i class="mdi-navigation-more-vert right"></i>
+							</span>
+						</div>
+						<span class="grey-text text-darken-4" ng-show="showmenu">
+							<div class="animated fadeInDown col s12">
+								<div class="section">
+
+									<!-- Switch -->
+									<div class="col s12">
+										<div class="switch">
+											<h6 class="left-align">
+												show code 
+												<br><br>
+												<label>
+													off
+													<input type="checkbox">
+													<span class="lever"  ng-click="showCodeSwitch()"></span>
+													On
+												</label>
+											</h6>
+										</div>
+										<br>
+									</div>
+
+									<div class="progress">
+										<div class="determinate" style="width: 25%"></div>
+									</div>
+
+									<div class="waves-effect waves-light btn" style="color:white; width: 100%"> 
+										<i class="mdi-file-file-download left"></i>
+										<a href="{{appData.code.url}}" style="color:white" download>
+											Download code
+										</a>
+									</div>
+
+									<div class="waves-effect waves-light btn" style="color:white; width: 100%" ng-click="loadMasterCode()"> 
+										<i class="mdi-action-grade left"></i>
+										<div>
+											Load master sketch
+										</div>
+									</div>
+
+								</div>
+								<div class="center">
+									<i class="mdi-hardware-keyboard-arrow-up" ng-click="togglemenu()"></i>
+								</div>
+							</div>
+						</span>
+					</div>
+				</div>
+
+				<!-- show code -->
+				<div ng-show="showCode">
+					<iframe ng-src="{{appData.code.url | trustAsResourceUrl}}" width="100%" height="100%" frameBorder="0" style="position: absolute; height=500px"></iframe>
+				</div>
+
+			</div>
+
