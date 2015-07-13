@@ -67,16 +67,17 @@ router.get('/biomoddlondonupdates', function(req, res, next){
 		repo: repoName
 	}, function(err, contentData){
 		var data = [];
+		if (contentData){
+			for (var i = 0; i < contentData.length; i++){
+				var owner = contentData[i].owner;
 
-		for (var i = 0; i < contentData.length; i++){
-			var owner = contentData[i].owner;
-
-			var entry = {
-				name: owner.login,
-				avatar: owner.avatar_url,
-				updated: contentData[i].updated_at
-			};
-			data.push(entry);
+				var entry = {
+					name: owner.login,
+					avatar: owner.avatar_url,
+					updated: contentData[i].updated_at
+				};
+				data.push(entry);
+			}
 		}
 		res.send(data);
 	});
@@ -111,9 +112,9 @@ router.get('/getusercode', function(req, res, next) {
 				var productionURL = downloadURL.replace("raw.githubusercontent", "rawgit");
 				
 				callback(null, {url: productionURL,
-								code: data,
-								user: username}
-								);
+					code: data,
+					user: username}
+					);
 			});
 
 		}).on("error", function() {

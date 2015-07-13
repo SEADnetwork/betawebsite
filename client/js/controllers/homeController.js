@@ -20,7 +20,11 @@
 
 	$scope.showmenu = false;
 
+	$scope.showTutorial = true;
 
+	$scope.toggleTutorial = function(){
+		$scope.showTutorial = !$scope.showTutorial;
+	}
 
 	$scope.togglemenu = function(){
 		$scope.showmenu = !$scope.showmenu;
