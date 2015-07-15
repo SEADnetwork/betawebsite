@@ -10,9 +10,23 @@
  */
  angular.module('seadApp').controller('homeController', function($scope, $http, angularLoad, $route, $sce) {
 
+
+ 	//JSONP abstraction
+ 	function getAPI(domain, params){
+ 		var APIDOMAIN = "http://biomoddlondon-sead.rhcloud.com/";
+ 		var url = APIDOMAIN+domain+"?callback=JSON_CALLBACK";
+
+ 		if(params){
+ 			for (var key in params) {
+ 				if (params.hasOwnProperty(key)) {
+ 					url+="&"+key+"="+params[key];
+ 				}
+ 			}	
+ 		}
+ 		return $http.jsonp(url);
+ 	}
+
 	//global vars
-	var userURL = "http://127.0.0.1:3000/users/";
-	var superuser = "SEADnetwork";
 
 	$scope.members = [];
 	$scope.appData = {};
@@ -20,7 +34,7 @@
 
 	$scope.showmenu = false;
 
-	$scope.showTutorial = true;
+	$scope.showTutorial = false;
 
 	$scope.toggleTutorial = function(){
 		$scope.showTutorial = !$scope.showTutorial;
@@ -46,17 +60,14 @@
 			} 
 		}
 		
-		var url = userURL.concat('getusercode?').concat('u=' + username);
-
-		$http.get(url)
-		.success(function (data) {
+		getAPI("user/getusercode", {u: username})
+		.success(function(data){
 			reloadSketch(data.url);
 			$scope.appData.code = data;
-			console.log(data);
 		})
-		.error(function (http, status) {
+		.error(function(http, status){
 			console.log("failed", http, status);
-		})
+		});
 	};
 
 	$scope.showCode = false;
@@ -65,6 +76,7 @@
 	}
 
 	$scope.loadMasterCode = function(){
+		var superuser = "SEADnetwork";
 		$scope.loadUserSketch(superuser);
 	}
 
@@ -73,7 +85,7 @@
 	}
 
 	var loadCode = function(url){
-		
+
 		angularLoad.loadScript(url).then(function() {
 			$scope.membercode.push({user:$scope.appData.code.user,
 	 								// s: s //the function: we can use this later on in order to try to fix multiple loads
@@ -85,24 +97,20 @@
 	}
 
 	var updateMembers = function(){
-		var url = userURL.concat('biomoddlondonupdates');
-
-		$http.get(url)
-		.success(function (data) {
+		getAPI("user/biomoddlondonupdates")
+		.success(function(data){
 			$scope.members=data;
 		})
-		.error(function (http, status) {
+		.error(function(http, status){
 			console.log("failed", http, status);
-		})
+		});
 	};
 
     	// temp fix for going to dashboard //FIXME
     	(function developLogin() {
 		toast("welcome", 4000) // 4000 is the duration of the toast
-		updateMembers();
-	})
-    	();
-
+		updateMembers();	
+		})();
     });
 
 
